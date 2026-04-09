@@ -33,6 +33,7 @@ let lastQuery = "";
 let preferSearch = false;
 let defaultEngine = "ddg";
 let activeSearchToken = 0;
+let awaitingExplicitSearch = false;
 
 function getParentOrigin () {
   const ancestor = location.ancestorOrigins && location.ancestorOrigins.length
@@ -75,7 +76,7 @@ searchInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     clearTimeout(debounceTimer);
     const q = searchInput.value.trim();
-    if (q.length >= MIN_QUERY_LENGTH) doSearch(q);
+    if (q.length >= MIN_QUERY_LENGTH) doSearch(q, true);
   }
   if (e.key === "Escape") {
     clearInput();
@@ -111,16 +112,29 @@ async function init () {
   searchInput.focus();
 }
 
-async function doSearch (query) {
+async function doSearch (query, explicit = false) {
   if (query.length < MIN_QUERY_LENGTH) return;
-  if (query === lastQuery) return;
+
+  const canBypass = preferSearch && explicit && awaitingExplicitSearch;
+  if (!canBypass && query === lastQuery) return;
 
   const searchToken = ++activeSearchToken;
   lastQuery = query;
 
   if (preferSearch) {
     if (searchToken !== activeSearchToken) return;
-    renderSearchFallback(query);
+    if (explicit) {
+      awaitingExplicitSearch = false;
+      const engine = ENGINE_MAP[defaultEngine] || ENGINE_MAP.ddg;
+      window.parent.postMessage(
+        { type: "DE_OPEN_SEARCH_URL", url: engine.url(query) },
+        PARENT_ORIGIN
+      );
+      renderAutoSearched(query);
+    } else {
+      awaitingExplicitSearch = true;
+      renderSearchReady(query);
+    }
     return;
   }
 
@@ -246,6 +260,7 @@ function renderSearchFallback (query, keepErrorVisible) {
   }
   resultsList.hidden = true;
   resultsList.innerHTML = "";
+  clearResultCards();
 
   const q = encodeURIComponent(query);
   const engines = [
@@ -303,8 +318,98 @@ function renderSearchFallback (query, keepErrorVisible) {
 
   card.appendChild(citeBtn);
   statusArea.appendChild(card);
+}
 
-  [...statusArea.querySelectorAll(".sb-fallback")].slice(0, -1).forEach((el) => el.remove());
+function renderSearchReady (query) {
+  statusArea.hidden = false;
+  emptyState.hidden = true;
+  errorMsg.hidden = true;
+  resultsList.hidden = true;
+  clearResultCards();
+
+  const engine = ENGINE_MAP[defaultEngine] || ENGINE_MAP.ddg;
+
+  const card = document.createElement("div");
+  card.className = "sb-search-ready";
+  card.innerHTML = `
+    <div class="sb-ready-engine-name">${escapeHtml(engine.name)}</div>
+    <div class="sb-ready-prompt">Press <kbd>&#x23CE;</kbd> to search for</div>
+    <div class="sb-ready-query">&ldquo;${escapeHtml(query)}&rdquo;</div>
+    <button class="sb-ready-btn" type="button">Search ${escapeHtml(engine.name)}</button>
+    <div class="sb-ready-hint">Instant answers are off &middot; <button class="sb-inline-link" type="button">Re-enable</button></div>
+  `;
+
+  card.querySelector(".sb-ready-btn").addEventListener("click", () => {
+    doSearch(query, true);
+  });
+
+  card.querySelector(".sb-inline-link").addEventListener("click", async () => {
+    preferSearch = false;
+    awaitingExplicitSearch = false;
+    await setPreferSearch(false);
+    showToast("Instant answers re-enabled");
+    lastQuery = "";
+    doSearch(query);
+  });
+
+  statusArea.appendChild(card);
+}
+
+function renderAutoSearched (query) {
+  statusArea.hidden = false;
+  emptyState.hidden = true;
+  errorMsg.hidden = true;
+  resultsList.hidden = true;
+  clearResultCards();
+
+  const engine = ENGINE_MAP[defaultEngine] || ENGINE_MAP.ddg;
+  const otherEngines = Object.values(ENGINE_MAP).filter((e) => e.name !== engine.name);
+
+  const card = document.createElement("div");
+  card.className = "sb-auto-searched";
+  card.innerHTML = `
+    <div class="sb-searched-confirm">
+      <svg viewBox="0 0 16 16" fill="none" width="15" height="15" aria-hidden="true">
+        <circle cx="8" cy="8" r="7" fill="#137333" opacity=".15"/>
+        <polyline points="4,8.5 7,11.5 12,5" stroke="#137333" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Opened <strong>${escapeHtml(engine.name)}</strong> for
+      <span class="sb-searched-query">&ldquo;${escapeHtml(query)}&rdquo;</span> in a new tab
+    </div>
+    <div class="sb-searched-alt-label">Try a different engine:</div>
+    <div class="sb-engine-grid"></div>
+    <label class="sb-fallback-toggle" for="autoSearchToggle">
+      <input id="autoSearchToggle" type="checkbox" checked />
+      Always open search instead of instant answers
+    </label>
+  `;
+
+  const grid = card.querySelector(".sb-engine-grid");
+  otherEngines.forEach((e) => {
+    const btn = document.createElement("button");
+    btn.className = "sb-engine-btn";
+    btn.textContent = e.name;
+    btn.addEventListener("click", () => {
+      window.parent.postMessage({ type: "DE_OPEN_SEARCH_URL", url: e.url(query) }, PARENT_ORIGIN);
+      showToast(`Opened ${e.name}`);
+    });
+    grid.appendChild(btn);
+  });
+
+  card.querySelector("#autoSearchToggle").addEventListener("change", async (ev) => {
+    preferSearch = Boolean(ev.currentTarget.checked);
+    await setPreferSearch(preferSearch);
+    if (!preferSearch) {
+      showToast("Instant answers re-enabled");
+      lastQuery = "";
+      doSearch(query);
+    } else {
+      showToast("Always-search re-enabled");
+    }
+  });
+
+  statusArea.appendChild(card);
 }
 
 function showEmpty () {
@@ -312,7 +417,8 @@ function showEmpty () {
   emptyState.hidden = false;
   errorMsg.hidden = true;
   resultsList.hidden = true;
-  clearFallbackCards();
+  awaitingExplicitSearch = false;
+  clearResultCards();
 }
 
 function showError (html) {
@@ -321,7 +427,7 @@ function showError (html) {
   resultsList.hidden = true;
   errorMsg.hidden = false;
   errorMsg.innerHTML = html;
-  clearFallbackCards();
+  clearResultCards();
 }
 
 function clearInput () {
@@ -333,8 +439,8 @@ function clearInput () {
   searchInput.focus();
 }
 
-function clearFallbackCards () {
-  statusArea.querySelectorAll(".sb-fallback").forEach((el) => el.remove());
+function clearResultCards () {
+  statusArea.querySelectorAll(".sb-fallback, .sb-search-ready, .sb-auto-searched").forEach((el) => el.remove());
 }
 
 let toastTimer = null;

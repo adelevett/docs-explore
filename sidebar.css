@@ -448,6 +448,126 @@ body {
 .sb-footer a { color: var(--text-3); text-decoration: none; }
 .sb-footer a:hover { text-decoration: underline; color: var(--blue); }
 
+/* ── search-ready state ──────────────────────────────────────── */
+.sb-search-ready {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px 14px;
+  max-width: 290px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.sb-ready-engine-name {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--blue);
+  background: rgba(26,115,232,.09);
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 2px;
+}
+
+.sb-ready-prompt {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.sb-ready-prompt kbd {
+  display: inline-block;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 11px;
+  font-family: inherit;
+  color: var(--text-2);
+}
+
+.sb-ready-query {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  word-break: break-word;
+  margin-bottom: 2px;
+}
+
+.sb-ready-btn {
+  margin-top: 4px;
+  padding: 7px 20px;
+  border-radius: 20px;
+  border: none;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.sb-ready-btn:hover { background: #1557b0; }
+
+.sb-ready-hint {
+  font-size: 11.5px;
+  color: var(--text-3);
+  margin-top: 3px;
+}
+
+.sb-inline-link {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  color: var(--blue);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.sb-inline-link:hover { color: #1557b0; }
+
+/* ── auto-searched confirmation ──────────────────────────────── */
+.sb-auto-searched {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  padding: 13px 12px;
+  max-width: 290px;
+}
+
+.sb-searched-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.45;
+  margin-bottom: 11px;
+  flex-wrap: wrap;
+}
+
+.sb-searched-confirm svg { flex-shrink: 0; margin-top: 1px; }
+.sb-searched-confirm strong { color: var(--text); }
+
+.sb-searched-query {
+  color: var(--text);
+  font-style: italic;
+}
+
+.sb-searched-alt-label {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 7px;
+}
+
 /* ── toast ───────────────────────────────────────────────────── */
 .sb-toast {
   position: fixed;
