@@ -21,7 +21,7 @@ Bring back the old Google Docs Explore workflow with instant answers, fast web s
 | Action | How |
 |--------|-----|
 | Open sidebar | Click extension action or floating button on Google Docs |
-| Keyboard shortcut | Ctrl + Shift + E |
+| Keyboard shortcut | Cmd + Shift + E (Mac) Ctrl + Shift + E (Windows) |
 | Search | Type in the sidebar search input |
 | Copy answer | Use Copy, then paste in Docs |
 | Copy citation | Use Copy citation, then paste in Docs |
