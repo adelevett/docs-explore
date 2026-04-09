@@ -266,6 +266,28 @@ function renderInstantAnswer (data, query, correction) {
       resultsList.appendChild(item);
     });
   }
+
+  /* ── always-visible "search the web" footer row ── */
+  const searchRow = document.createElement("li");
+  searchRow.className = "sb-web-search-row";
+  const engine = ENGINE_MAP[defaultEngine] || ENGINE_MAP.ddg;
+  searchRow.innerHTML = `
+    <span class="sb-web-search-label">Or search the web for &ldquo;${escapeHtml(query)}&rdquo; <span class="sb-web-search-hint">(opens in new tab)</span></span>
+    <div class="sb-engine-grid sb-engine-grid--compact"></div>
+  `;
+  const grid = searchRow.querySelector(".sb-engine-grid");
+  Object.values(ENGINE_MAP).forEach((e) => {
+    const btn = document.createElement("button");
+    btn.className = "sb-engine-btn";
+    btn.textContent = e.name;
+    btn.title = `Search ${e.name} for "${query}"`;
+    btn.addEventListener("click", () => {
+      window.parent.postMessage({ type: "DE_OPEN_SEARCH_URL", url: e.url(query) }, PARENT_ORIGIN);
+      showToast(`Opened ${e.name}`);
+    });
+    grid.appendChild(btn);
+  });
+  resultsList.appendChild(searchRow);
 }
 
 function renderSearchFallback (query, keepErrorVisible, correction) {
