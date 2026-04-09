@@ -1,0 +1,47 @@
+Chrome Web Store Listing Copy
+
+Short Description (<=132 chars)
+Bring back Docs Explore with instant answers, fast web search handoff, and citation-ready copy for Google Docs.
+
+Detailed Description
+Docs Explore recreates a lightweight research sidebar for Google Docs.
+
+What it does
+- Instant answers from DuckDuckGo while you write
+- One-click source visit, copy answer, and copy citation actions
+- Search fallback when no instant answer exists
+- Always-open-search mode for users who prefer direct web results
+- Context menu capture from any page: send selected text or links to your open Google Doc
+
+Who it is for
+- Students and researchers collecting quick references
+- Writers who need lightweight citation support without leaving Docs
+- Teams that miss the old Docs Explore workflow
+
+How it works
+1) Open the sidebar in Google Docs
+2) Search a topic
+3) Use instant answers or open your preferred search engine
+4) Paste copied answer/citation into the doc
+
+Privacy highlights
+- No account required
+- No custom backend
+- Settings are stored locally in your browser
+- Search terms are sent to DuckDuckGo only for instant-answer lookups
+
+How users can send feedback to Google Docs
+Send feedback directly inside Google Docs:
+1) Open any document
+2) Click Help
+3) Click Help Docs improve
+4) Submit your message
+
+Suggested message
+The Explore feature was extremely useful for research and citations. Current alternatives do not replace its workflow. Please consider bringing it back.
+
+Support
+GitHub: https://github.com/adelevett/docs-explore
+Issues: https://github.com/adelevett/docs-explore/issues
+Privacy Policy URL
+Use the hosted version of PRIVACY.html from your repository or website.

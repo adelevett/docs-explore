@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Docs Explore Privacy Policy</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent: #1a73e8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 40%, var(--bg) 100%);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 36px auto;
+      padding: 0 18px 28px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: -0.02em;
+    }
+
+    .meta {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    h2 {
+      margin: 26px 0 8px;
+      font-size: 18px;
+      color: #111827;
+    }
+
+    p { margin: 0 0 10px; }
+
+    ul {
+      margin: 8px 0 12px 20px;
+      padding: 0;
+    }
+
+    li { margin: 6px 0; }
+
+    a { color: var(--accent); }
+
+    .box {
+      background: #f9fafb;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>Docs Explore Privacy Policy</h1>
+      <p class="meta">Effective date: April 9, 2026</p>
+
+      <p>
+        Docs Explore is a Chrome extension that helps users search for information and insert citations while working in Google Docs.
+      </p>
+
+      <h2>What data is processed</h2>
+      <ul>
+        <li>Search terms entered in the sidebar.</li>
+        <li>Selected text or link URLs when a user explicitly uses the context menu action.</li>
+        <li>Local preferences such as selected default search engine and always-open-search mode.</li>
+      </ul>
+
+      <h2>How data is used</h2>
+      <ul>
+        <li>Search terms are sent to DuckDuckGo Instant Answer API to retrieve instant answer results.</li>
+        <li>When users choose web search fallback or auto-open search mode, the extension opens the selected engine URL in a new tab.</li>
+        <li>Context menu text/link capture is used only to insert content into the user's open Google Docs tab.</li>
+      </ul>
+
+      <h2>Storage and retention</h2>
+      <ul>
+        <li>Preferences are stored in <strong>chrome.storage.local</strong> on the user's device.</li>
+        <li>The extension does not run a remote database or user account system.</li>
+      </ul>
+
+      <h2>Data sharing</h2>
+      <p>
+        The extension does not sell user data and does not share data with third parties except where required to provide functionality:
+      </p>
+      <ul>
+        <li>DuckDuckGo receives search terms for instant answer lookups.</li>
+        <li>Selected search engines receive normal query parameters when users open search in a new tab.</li>
+      </ul>
+
+      <h2>Permissions rationale</h2>
+      <div class="box">
+        <ul>
+          <li><strong>storage</strong>: save local settings.</li>
+          <li><strong>contextMenus</strong>: allow right-click capture actions.</li>
+          <li><strong>tabs</strong>: open and communicate with Google Docs tabs and search tabs.</li>
+          <li><strong>scripting</strong>: inject sidebar code into Google Docs pages.</li>
+          <li><strong>host permissions</strong> for docs.google.com and api.duckduckgo.com: required to operate inside Docs and fetch instant answers.</li>
+        </ul>
+      </div>
+
+      <h2>Your choices</h2>
+      <ul>
+        <li>You can disable or remove the extension at any time from chrome://extensions.</li>
+        <li>You can clear extension settings by removing the extension.</li>
+      </ul>
+
+      <h2>Contact</h2>
+      <p>
+        For support or privacy questions, open an issue in the public repository:
+        <a href="https://github.com/adelevett/docs-explore/issues">github.com/adelevett/docs-explore/issues</a>
+      </p>
+    </article>
+  </main>
+</body>
+</html>

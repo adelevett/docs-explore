@@ -1,84 +1,103 @@
-# Docs Explore — Chrome Extension
+# Docs Explore - Chrome Extension
 
-> Bring back Google Docs Explore with DuckDuckGo Instant Answer, fast fallback search, and one-click citations.
-
----
+Bring back the old Google Docs Explore workflow with instant answers, fast web search handoff, and citation helpers.
 
 ## Installation
 
-1. **Unzip** this folder somewhere permanent on your machine (don't delete it after loading).
-2. Open Chrome and go to `chrome://extensions/`
-3. Enable **Developer mode** (toggle in the top-right corner).
-4. Click **Load unpacked** and select the `docs-explore` folder.
-5. The extension is now installed.
+1. Open Chrome and go to chrome://extensions/
+2. Enable Developer mode
+3. Click Load unpacked
+4. Select this folder
 
----
+## Current behavior
 
-## Search architecture
+1. Default mode: query DuckDuckGo Instant Answer first
+2. If an instant answer exists: show answer card, source link, copy actions, related topics
+3. If no instant answer exists: show fallback engines
+4. Optional mode in Settings: Always open search
+5. In Always open search mode:
+     - typing shows a ready state
+     - pressing Enter (or clicking Search) opens the selected engine in a new tab
+     - sidebar confirms what opened and lets users quickly re-enable instant answers
 
-1. Query goes to DuckDuckGo Instant Answer first (no key, no quota)
-2. If an instant answer exists, show a summary card with source URL
-3. If no instant answer exists, show one-click fallback engines (DDG/Google/Bing/Yahoo/Brave)
+## Settings
 
----
+- Always open search instead of instant answers
+- Default search engine used for:
+    - related content links
+    - search citation links
+    - auto-open target when Always open search is enabled
 
 ## Usage
 
 | Action | How |
 |--------|-----|
-| Open sidebar | Click the 🔵 button in the bottom-right of any Docs page |
-| Keyboard shortcut | `Ctrl + Shift + E` |
-| Search | Type in the search box — DDG instant answer appears when available |
-| Fallback | If no instant answer exists, use one-click engine buttons |
-| Visit source | Click **Visit site** |
-| Copy answer + focus doc | Click **Copy**, then paste at caret |
-| Copy citation + focus doc | Click **Copy citation**, then paste at caret |
-| Quick capture from web pages | Right-click selection/link → **Add to Google Docs (Explore)** |
+| Open sidebar | Click extension action or floating button on Google Docs |
+| Keyboard shortcut | Ctrl + Shift + E |
+| Search | Type in the sidebar search input |
+| Copy answer | Use Copy, then paste in Docs |
+| Copy citation | Use Copy citation, then paste in Docs |
+| Quick capture from web | Right-click selection or link and choose Add to Google Docs (Explore) |
 
----
+## Privacy summary
 
-## APA citation format
+- Search terms are sent from the browser to api.duckduckgo.com for instant answers
+- When users click external engine buttons or auto-open search, normal search URLs are opened in a new tab
+- Context-menu capture reads selected text or links and sends them to the user's open Google Docs tab
+- Preferences are stored locally in chrome.storage.local
+- No custom backend, account system, or analytics service is used
 
-Citations are assembled client-side from DDG fields:
+See [PRIVACY.html](PRIVACY.html) for a full policy page suitable for Chrome Web Store submission.
 
-```
-Author, A. (n.d.). Heading. AbstractSource. https://url Retrieved YYYY, Month Day.
-```
+## Chrome Web Store readiness checklist
 
-Fields omitted gracefully when unavailable (author omitted when unknown; date defaults to `n.d.` with retrieval date).
+Done:
+- Manifest V3
+- PNG icons (16, 48, 128)
+- Action icon configured
+- Options page
+- Privacy policy page in repository
 
----
+Still needed before publish:
+- 1 to 5 store screenshots (recommended: instant answer, always-search ready state, settings page)
+- Store description text in Chrome Web Store dashboard
+- Category, language, and support contact fields in dashboard
+
+Current screenshots in this repo:
+- store-assets/instant_answer.png
+- store-assets/search_in_new_tab.png
+- store-assets/launch_from_icon.png
+
+Note: Chrome Web Store screenshots must match accepted dimensions. The current captures are 682x683 and should be re-captured or resized to an accepted size such as 1280x800 or 640x400.
+
+## Share feedback with Google Docs
+
+The most effective path is direct in-product feedback from Google Docs.
+
+1. Open any Google Doc
+2. Click Help in the top menu
+3. Click Help Docs improve
+4. Submit your message
+
+Suggested message:
+
+The Explore feature was extremely useful for research and citations. Current alternatives do not replace its workflow. Please consider bringing it back.
 
 ## File structure
 
-```
 docs-explore/
-├── manifest.json       Chrome extension manifest (MV3)
-├── background.js       Service worker (context menu + send to Docs tab)
-├── content.js          Injected into docs.google.com — creates sidebar iframe
-├── content.css         Styles for the injected toggle button + iframe
-├── sidebar.html        The search panel (loaded in an iframe)
-├── sidebar.js          DDG calls, fallback engines, APA builder
-├── sidebar.css         Sidebar UI styles
-├── options.html        Settings page (search preference)
-├── options.js
-└── icons/
-    ├── icon16.svg
-    ├── icon48.svg
-    └── icon128.svg
-```
-
----
-
-## Notes & limitations
-
-- **Instant answers** come from DDG's `AbstractText` / `Answer` / `Definition` fields.
-- **Author extraction** is best-effort from DDG heading and can be blank for non-person entities.
-- **Citation insertion** is clipboard-first by design: click **Copy** or **Copy citation**, then paste with `Cmd+V` (macOS) or `Ctrl+V`.
-- **Fallback engines** open external search tabs without API calls.
-
----
-
-## Privacy
-
-Searches are sent directly from your browser to `api.duckduckgo.com` for instant answers or to user-opened search pages via normal web URLs. No API key is required.
+- manifest.json
+- background.js
+- content.js
+- content.css
+- sidebar.html
+- sidebar.js
+- sidebar.css
+- options.html
+- options.js
+- PRIVACY.html
+- store-assets/
+- icons/
+    - icon16.png
+    - icon48.png
+    - icon128.png

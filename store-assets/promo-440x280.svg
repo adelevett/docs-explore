@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="280" viewBox="0 0 440 280" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="440" y2="280" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF3FF"/>
+      <stop offset="1" stop-color="#F5F8FC"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F8FBFF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="440" height="280" rx="22" fill="url(#bg)"/>
+
+  <rect x="24" y="24" width="392" height="232" rx="16" fill="url(#panel)" stroke="#DDE7F3"/>
+
+  <g transform="translate(44 42)">
+    <circle cx="14" cy="14" r="11" stroke="#1A73E8" stroke-width="3" fill="none"/>
+    <line x1="22" y1="22" x2="30" y2="30" stroke="#1A73E8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="9" y1="14" x2="19" y2="14" stroke="#1A73E8" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="14" y1="9" x2="14" y2="19" stroke="#1A73E8" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="42" y="18" fill="#0F172A" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Docs Explore</text>
+    <text x="42" y="39" fill="#5B6574" font-family="Segoe UI, Arial, sans-serif" font-size="13">Instant answers and fast web handoff inside Google Docs</text>
+  </g>
+
+  <rect x="44" y="94" width="352" height="34" rx="17" fill="#F4F7FB" stroke="#D7E2EF"/>
+  <circle cx="63" cy="111" r="7" stroke="#95A8C2" stroke-width="2" fill="none"/>
+  <line x1="68" y1="116" x2="73" y2="121" stroke="#95A8C2" stroke-width="2" stroke-linecap="round"/>
+  <text x="80" y="116" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="13">Search the web...</text>
+
+  <rect x="44" y="138" width="352" height="86" rx="12" fill="#FFFFFF" stroke="#DDE7F3"/>
+  <text x="58" y="160" fill="#137333" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700">INSTANT ANSWER</text>
+  <text x="58" y="179" fill="#1A73E8" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">Oregon</text>
+  <text x="58" y="198" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="12">State in the Pacific Northwest region of the U.S.</text>
+
+  <rect x="58" y="206" width="82" height="24" rx="12" fill="#FFFFFF" stroke="#CBD8E8"/>
+  <text x="79" y="222" fill="#526072" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">Copy</text>
+
+  <rect x="146" y="206" width="108" height="24" rx="12" fill="#EAF3FF" stroke="#B6D0FF"/>
+  <text x="162" y="222" fill="#1A73E8" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700">Copy citation</text>
+</svg>
