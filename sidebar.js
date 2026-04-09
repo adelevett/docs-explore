@@ -16,12 +16,22 @@ const settingsLink = document.getElementById("settingsLink");
 const DDG_ENDPOINT = "https://api.duckduckgo.com/";
 const DEBOUNCE_MS = 300;
 const KEY_PREFER_SEARCH = "preferSearch";
+const KEY_DEFAULT_ENGINE = "defaultEngine";
 const PARENT_ORIGIN = getParentOrigin();
 const MIN_QUERY_LENGTH = 2;
+
+const ENGINE_MAP = {
+  ddg:    { name: "DuckDuckGo", url: (q) => `https://duckduckgo.com/?q=${encodeURIComponent(q)}` },
+  google: { name: "Google",     url: (q) => `https://www.google.com/search?q=${encodeURIComponent(q)}` },
+  bing:   { name: "Bing",       url: (q) => `https://www.bing.com/search?q=${encodeURIComponent(q)}` },
+  yahoo:  { name: "Yahoo",      url: (q) => `https://search.yahoo.com/search?p=${encodeURIComponent(q)}` },
+  brave:  { name: "Brave",      url: (q) => `https://search.brave.com/search?q=${encodeURIComponent(q)}` },
+};
 
 let debounceTimer = null;
 let lastQuery = "";
 let preferSearch = false;
+let defaultEngine = "ddg";
 let activeSearchToken = 0;
 
 function getParentOrigin () {
@@ -84,8 +94,12 @@ settingsLink.addEventListener("click", (e) => {
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
   if (areaName !== "local") return;
-  if (!changes[KEY_PREFER_SEARCH]) return;
-  preferSearch = Boolean(changes[KEY_PREFER_SEARCH].newValue);
+  if (changes[KEY_PREFER_SEARCH]) {
+    preferSearch = Boolean(changes[KEY_PREFER_SEARCH].newValue);
+  }
+  if (changes[KEY_DEFAULT_ENGINE]) {
+    defaultEngine = changes[KEY_DEFAULT_ENGINE].newValue || "ddg";
+  }
 });
 
 async function init () {
@@ -93,7 +107,7 @@ async function init () {
   clearBtn.classList.remove("visible");
   lastQuery = "";
   showEmpty();
-  preferSearch = await getPreferSearch();
+  [preferSearch, defaultEngine] = await Promise.all([getPreferSearch(), getDefaultEngine()]);
   searchInput.focus();
 }
 
@@ -213,9 +227,10 @@ function renderInstantAnswer (data, query) {
     related.forEach((topic) => {
       const item = document.createElement("li");
       item.className = "sb-card sb-related";
+      const engine = ENGINE_MAP[defaultEngine] || ENGINE_MAP.ddg;
       item.innerHTML = `
         <div class="sb-card-title">
-          <a href="${escapeHtml(topic.url)}" target="_blank" rel="noopener">${escapeHtml(topic.text)}</a>
+          <a href="${escapeHtml(engine.url(topic.text))}" target="_blank" rel="noopener">${escapeHtml(topic.text)}</a>
         </div>
       `;
       resultsList.appendChild(item);
@@ -282,7 +297,7 @@ function renderSearchFallback (query, keepErrorVisible) {
   citeBtn.className = "sb-btn-cite sb-fallback-cite";
   citeBtn.textContent = "Copy search citation";
   citeBtn.addEventListener("click", () => {
-    const citation = buildSearchCitation(query, "DuckDuckGo");
+    const citation = buildSearchCitation(query);
     postInsert(`${citation}\n`, false);
   });
 
@@ -379,11 +394,11 @@ function buildAPAFromDDG (data, query) {
   return parts.join(" ");
 }
 
-function buildSearchCitation (query, engineName) {
-  const q = encodeURIComponent(query);
-  const url = `https://duckduckgo.com/?q=${q}`;
+function buildSearchCitation (query) {
+  const engine = ENGINE_MAP[defaultEngine] || ENGINE_MAP.ddg;
+  const url = engine.url(query);
   const retrieved = formatRetrievedDate(new Date());
-  return `${engineName}. (n.d.). Search results for \"${query}\". ${url} Retrieved ${retrieved}.`;
+  return `${engine.name}. (n.d.). Search results for "${query}". ${url} Retrieved ${retrieved}.`;
 }
 
 function formatRetrievedDate (d) {
@@ -444,6 +459,14 @@ function getPreferSearch () {
 function setPreferSearch (value) {
   return new Promise((resolve) => {
     chrome.storage.local.set({ [KEY_PREFER_SEARCH]: Boolean(value) }, resolve);
+  });
+}
+
+function getDefaultEngine () {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(KEY_DEFAULT_ENGINE, (result) => {
+      resolve(result?.[KEY_DEFAULT_ENGINE] || "ddg");
+    });
   });
 }
 
