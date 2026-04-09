@@ -10,8 +10,8 @@ What it does
 - Instant answers from DuckDuckGo while you write
 - One-click source visit, copy answer, and copy citation actions
 - Search fallback when no instant answer exists
-- Always-open-search mode for users who prefer direct web results
-- Context menu capture from any page: send selected text or links to your open Google Doc
+- Web search in new tab for users who prefer full web results
+- Context menu capture from any page: copies selected text or links to your clipboard, ready to paste into your open Google Doc
 
 Who it is for
 - Students and researchers collecting quick references
