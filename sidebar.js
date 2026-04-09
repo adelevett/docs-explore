@@ -139,19 +139,22 @@ async function doSearch (query, explicit = false) {
   }
 
   try {
-    const data = await fetchDDG(query);
+    const [data, correction] = await Promise.all([
+      fetchDDG(query),
+      fetchSpellCorrection(query)
+    ]);
     if (searchToken !== activeSearchToken) return;
 
     if (hasInstantAnswer(data)) {
-      renderInstantAnswer(data, query);
+      renderInstantAnswer(data, query, correction);
       return;
     }
 
-    renderSearchFallback(query);
+    renderSearchFallback(query, false, correction);
   } catch (err) {
     if (searchToken !== activeSearchToken) return;
     showError(`${escapeHtml(err.message || "Search failed")}. Try opening web search below.`);
-    renderSearchFallback(query, true);
+    renderSearchFallback(query, true, "");
   }
 }
 
@@ -181,12 +184,25 @@ function hasInstantAnswer (data) {
   return Boolean(data?.AbstractText?.length || data?.Answer?.length || data?.Definition?.length);
 }
 
-function renderInstantAnswer (data, query) {
+function renderInstantAnswer (data, query, correction) {
   statusArea.hidden = true;
   emptyState.hidden = true;
   errorMsg.hidden = true;
   resultsList.hidden = false;
   resultsList.innerHTML = "";
+
+  if (correction) {
+    const suggEl = document.createElement("li");
+    suggEl.className = "sb-spell-suggestion";
+    suggEl.innerHTML = `Did you mean: <button class="sb-inline-link" type="button">${escapeHtml(correction)}</button>?`;
+    suggEl.querySelector("button").addEventListener("click", () => {
+      searchInput.value = correction;
+      clearBtn.classList.add("visible");
+      lastQuery = "";
+      doSearch(correction);
+    });
+    resultsList.appendChild(suggEl);
+  }
 
   const main = document.createElement("li");
   main.className = "sb-card sb-answer";
@@ -252,7 +268,7 @@ function renderInstantAnswer (data, query) {
   }
 }
 
-function renderSearchFallback (query, keepErrorVisible) {
+function renderSearchFallback (query, keepErrorVisible, correction) {
   if (!keepErrorVisible) {
     statusArea.hidden = false;
     errorMsg.hidden = true;
@@ -261,6 +277,19 @@ function renderSearchFallback (query, keepErrorVisible) {
   resultsList.hidden = true;
   resultsList.innerHTML = "";
   clearResultCards();
+
+  if (correction) {
+    const suggEl = document.createElement("div");
+    suggEl.className = "sb-spell-suggestion";
+    suggEl.innerHTML = `Did you mean: <button class="sb-inline-link" type="button">${escapeHtml(correction)}</button>?`;
+    suggEl.querySelector("button").addEventListener("click", () => {
+      searchInput.value = correction;
+      clearBtn.classList.add("visible");
+      lastQuery = "";
+      doSearch(correction);
+    });
+    statusArea.appendChild(suggEl);
+  }
 
   const q = encodeURIComponent(query);
   const engines = [
@@ -440,7 +469,7 @@ function clearInput () {
 }
 
 function clearResultCards () {
-  statusArea.querySelectorAll(".sb-fallback, .sb-search-ready, .sb-auto-searched").forEach((el) => el.remove());
+  statusArea.querySelectorAll(".sb-fallback, .sb-search-ready, .sb-auto-searched, .sb-spell-suggestion").forEach((el) => el.remove());
 }
 
 let toastTimer = null;
@@ -574,6 +603,20 @@ function getDefaultEngine () {
       resolve(result?.[KEY_DEFAULT_ENGINE] || "ddg");
     });
   });
+}
+
+async function fetchSpellCorrection (query) {
+  try {
+    const url = `https://api.datamuse.com/words?sp=${encodeURIComponent(query)}&max=1`;
+    const res = await fetch(url, { headers: { "Accept": "application/json" } });
+    if (!res.ok) return "";
+    const results = await res.json();
+    const corrected = results?.[0]?.word || "";
+    if (corrected && corrected.toLowerCase() !== query.toLowerCase()) {
+      return corrected;
+    }
+  } catch { /* non-critical — silently ignore */ }
+  return "";
 }
 
 function escapeHtml (str) {
