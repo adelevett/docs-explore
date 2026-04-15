@@ -29,7 +29,7 @@
     toggleBtn = document.createElement("button");
     toggleBtn.id          = TOGGLE_ID;
     const isMac = navigator.platform.includes("Mac") || navigator.userAgent.includes("Mac");
-    toggleBtn.title       = `Docs Explore  (${isMac ? "Cmd" : "Ctrl"}+Shift+E)`;
+    toggleBtn.title       = `AnswerDock  (${isMac ? "Cmd" : "Ctrl"}+Shift+E)`;
     toggleBtn.innerHTML   = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="2" stroke-linecap="round"

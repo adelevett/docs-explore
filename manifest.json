@@ -1,60 +1,70 @@
 {
   "manifest_version": 3,
-  "name": "Docs Explore",
+  "name": "AnswerDock",
   "version": "1.0.0",
-  "description": "Bring back Google Docs Explore — DDG instant answers, fallback search, and citations.",
-
-  "permissions": ["storage", "scripting", "contextMenus", "tabs"],
+  "description": "Discover AnswerDock — DDG instant answers, fallback search, and citations.",
+  "permissions": [
+    "storage",
+    "scripting",
+    "contextMenus",
+    "tabs"
+  ],
   "host_permissions": [
     "https://docs.google.com/*",
     "https://api.duckduckgo.com/*",
     "https://api.datamuse.com/*"
   ],
-
   "background": {
     "service_worker": "background.js"
   },
-
   "content_scripts": [
     {
-      "matches": ["https://docs.google.com/document/*"],
-      "js": ["content.js"],
-      "css": ["content.css"],
+      "matches": [
+        "https://docs.google.com/document/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
       "run_at": "document_idle"
     }
   ],
-
   "web_accessible_resources": [
     {
-      "resources": ["sidebar.html", "sidebar.js", "sidebar.css", "icons/*.svg"],
-      "matches": ["https://docs.google.com/*"]
+      "resources": [
+        "sidebar.html",
+        "sidebar.js",
+        "sidebar.css",
+        "icons/*.svg"
+      ],
+      "matches": [
+        "https://docs.google.com/*"
+      ]
     }
   ],
-
   "options_page": "options.html",
-
   "commands": {
     "toggle-sidebar": {
       "suggested_key": {
         "default": "Ctrl+Shift+E",
-        "mac":     "Command+Shift+E"
+        "mac": "Command+Shift+E"
       },
-      "description": "Toggle Docs Explore sidebar"
+      "description": "Toggle AnswerDock sidebar"
     }
   },
-
   "action": {
-    "default_title": "Toggle Docs Explore (Cmd+Shift+E / Ctrl+Shift+E)",
+    "default_title": "Toggle AnswerDock (Cmd+Shift+E / Ctrl+Shift+E)",
     "default_icon": {
-      "16":  "icons/icon16.png",
-      "48":  "icons/icon48.png",
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     }
   },
-
   "icons": {
-    "16":  "icons/icon16.png",
-    "48":  "icons/icon48.png",
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   }
 }

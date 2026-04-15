@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Docs Explore</title>
+  <title>AnswerDock</title>
   <style>
     :root {
       --bg: #f5f8fc;
@@ -16,7 +17,9 @@
       --ok: #137333;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -84,7 +87,9 @@
       border-color: var(--accent);
     }
 
-    .btn.primary:hover { background: var(--accent-dark); }
+    .btn.primary:hover {
+      background: var(--accent-dark);
+    }
 
     .grid {
       margin-top: 16px;
@@ -118,18 +123,23 @@
       justify-content: center;
       padding: 20px;
     }
-    .lb-overlay.open { display: flex; }
+
+    .lb-overlay.open {
+      display: flex;
+    }
+
     .lb-overlay img {
       max-width: 100%;
       max-height: 90vh;
       border-radius: 10px;
-      box-shadow: 0 24px 64px rgba(0,0,0,.5);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .5);
     }
+
     .lb-close {
       position: fixed;
       top: 16px;
       right: 20px;
-      background: rgba(255,255,255,.15);
+      background: rgba(255, 255, 255, .15);
       border: none;
       color: #fff;
       font-size: 28px;
@@ -142,7 +152,10 @@
       align-items: center;
       justify-content: center;
     }
-    .lb-close:hover { background: rgba(255,255,255,.28); }
+
+    .lb-close:hover {
+      background: rgba(255, 255, 255, .28);
+    }
 
     .card p {
       margin: 0;
@@ -165,8 +178,14 @@
       letter-spacing: -0.01em;
     }
 
-    ol, ul { margin: 0 0 0 20px; }
-    li { margin: 6px 0; }
+    ol,
+    ul {
+      margin: 0 0 0 20px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
 
     .quote {
       margin-top: 8px;
@@ -189,25 +208,34 @@
     }
 
     @media (max-width: 900px) {
-      .grid { grid-template-columns: 1fr; }
-      h1 { font-size: 28px; }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
     }
   </style>
 </head>
+
 <body>
   <main class="wrap">
     <section class="hero">
       <div class="brand">
-        <img src="icons/icon48.png" width="28" height="28" alt="Docs Explore icon" />
-        <h1>Docs Explore</h1>
+        <img src="icons/icon48.png" width="28" height="28" alt="AnswerDock icon" />
+        <h1>AnswerDock</h1>
       </div>
-      <p class="lead">Bring back the Google Docs Explore workflow with instant answers, fast web handoff, and citation-ready copy.</p>
+      <p class="lead">Discover AnswerDock with instant answers, fast web handoff, and citation-ready copy.</p>
       <div class="cta">
-        <a class="btn primary" href="https://chrome.google.com/webstore" target="_blank" rel="noopener">Chrome Web Store</a>
+        <a class="btn primary" href="https://chrome.google.com/webstore" target="_blank" rel="noopener">Chrome Web
+          Store</a>
         <a class="btn" href="PRIVACY.html">Privacy Policy</a>
-        <a class="btn" href="https://github.com/adelevett/docs-explore" target="_blank" rel="noopener">GitHub Repository</a>
+        <a class="btn" href="https://github.com/adelevett/docs-explore" target="_blank" rel="noopener">GitHub
+          Repository</a>
       </div>
-      <p class="muted" style="margin-top: 10px;">Status: <span class="status">Privacy policy is published on this site.</span></p>
+      <p class="muted" style="margin-top: 10px;">Status: <span class="status">Privacy policy is published on this
+          site.</span></p>
     </section>
 
     <section class="grid" aria-label="Feature screenshots">
@@ -255,17 +283,21 @@
         <li>Write your message and submit.</li>
         <li>You could try something like:</li>
       </ol>
-      <div class="quote">The Explore feature was extremely useful for research and citations. Current alternatives do not replace its workflow. Please consider bringing it back.</div>
+      <div class="quote">The Explore feature was extremely useful for research and citations. Current alternatives do
+        not replace its workflow. Please consider bringing it back.</div>
     </section>
 
     <section class="section">
       <h2>Support</h2>
       <ul>
-        <li>Repository: <a href="https://github.com/adelevett/docs-explore" target="_blank" rel="noopener">github.com/adelevett/docs-explore</a></li>
-        <li>Issues: <a href="https://github.com/adelevett/docs-explore/issues" target="_blank" rel="noopener">github.com/adelevett/docs-explore/issues</a></li>
+        <li>Repository: <a href="https://github.com/adelevett/docs-explore" target="_blank"
+            rel="noopener">github.com/adelevett/docs-explore</a></li>
+        <li>Issues: <a href="https://github.com/adelevett/docs-explore/issues" target="_blank"
+            rel="noopener">github.com/adelevett/docs-explore/issues</a></li>
         <li>Policy: <a href="PRIVACY.html">PRIVACY.html</a></li>
       </ul>
     </section>
   </main>
 </body>
+
 </html>

@@ -152,7 +152,7 @@ async function ensureDocsExploreReady (tabId) {
 
   const readyAfterInject = await pingDocsExplore(tabId);
   if (!readyAfterInject) {
-    throw new Error("Docs Explore content script is unavailable");
+    throw new Error("AnswerDock content script is unavailable");
   }
 }
 

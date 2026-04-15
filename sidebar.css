@@ -1,4 +1,4 @@
-/* sidebar.css — styles for the Docs Explore sidebar iframe */
+/* sidebar.css — styles for the AnswerDock sidebar iframe */
 
 /* Ensure [hidden] attribute always wins over display: flex/block rules in this file */
 [hidden] { display: none !important; }

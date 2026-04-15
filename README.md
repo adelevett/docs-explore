@@ -1,6 +1,6 @@
-# Docs Explore - Chrome Extension
+# AnswerDock - Chrome Extension
 
-Bring back the old Google Docs Explore workflow with instant answers, fast web search handoff, and citation helpers.
+Discover AnswerDock with instant answers with fast web search handoff, and citation helpers.
 
 ## What to expect
 

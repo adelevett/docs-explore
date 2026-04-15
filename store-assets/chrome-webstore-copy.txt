@@ -1,10 +1,10 @@
 Chrome Web Store Listing Copy
 
 Short Description (<=132 chars)
-Bring back Docs Explore with instant answers, fast web search handoff, and citation-ready copy for Google Docs.
+Discover AnswerDock with instant answers, fast web search handoff, and citation-ready copy for Google Docs.
 
 Detailed Description
-Docs Explore recreates a lightweight research sidebar for Google Docs.
+AnswerDock recreates a lightweight research sidebar for Google Docs.
 
 What it does
 - Instant answers from DuckDuckGo for quick research while you write
@@ -16,7 +16,7 @@ What it does
 Who it is for
 - Students and researchers collecting quick references
 - Writers who need lightweight citation support without leaving Docs
-- Teams that miss the old Docs Explore workflow
+- Teams that miss the old AnswerDock workflow
 
 How it works
 1) Open the sidebar in Google Docs
