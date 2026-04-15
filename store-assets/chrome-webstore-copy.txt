@@ -41,6 +41,6 @@ Suggested message
 The Explore feature was extremely useful for research and citations. Current alternatives do not replace its workflow. Please consider bringing it back.
 
 Support
-GitHub: https://github.com/adelevett/docs-explore
-Issues: https://github.com/adelevett/docs-explore/issues
-Privacy Policy: https://adelevett.github.io/docs-explore/PRIVACY.html
+GitHub: https://github.com/adelevett/answerdock
+Issues: https://github.com/adelevett/answerdock/issues
+Privacy Policy: https://adelevett.github.io/answerdock/PRIVACY.html

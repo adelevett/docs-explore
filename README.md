@@ -35,4 +35,4 @@ Discover AnswerDock with instant answers with fast web search handoff, and citat
 - Preferences are stored locally in chrome.storage.local
 - No custom backend, account system, or analytics service is used
 
-See [PRIVACY.html](https://adelevett.github.io/docs-explore/PRIVACY.html) for a full policy
+See [PRIVACY.html](https://adelevett.github.io/answerdock/PRIVACY.html) for a full policy

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,7 +15,9 @@
       --accent: #1a73e8;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -56,16 +59,22 @@
       color: #111827;
     }
 
-    p { margin: 0 0 10px; }
+    p {
+      margin: 0 0 10px;
+    }
 
     ul {
       margin: 8px 0 12px 20px;
       padding: 0;
     }
 
-    li { margin: 6px 0; }
+    li {
+      margin: 6px 0;
+    }
 
-    a { color: var(--accent); }
+    a {
+      color: var(--accent);
+    }
 
     .box {
       background: #f9fafb;
@@ -76,6 +85,7 @@
     }
   </style>
 </head>
+
 <body>
   <main class="wrap">
     <article class="card">
@@ -83,7 +93,8 @@
       <p class="meta">Effective date: April 9, 2026</p>
 
       <p>
-        AnswerDock is a Chrome extension that helps users search for information and insert citations while working in Google Docs.
+        AnswerDock is a Chrome extension that helps users search for information and insert citations while working in
+        Google Docs.
       </p>
 
       <h2>What data is processed</h2>
@@ -96,7 +107,8 @@
       <h2>How data is used</h2>
       <ul>
         <li>Search terms are sent to DuckDuckGo Instant Answer API to retrieve instant answer results.</li>
-        <li>When users choose web search fallback or auto-open search mode, the extension opens the selected engine URL in a new tab.</li>
+        <li>When users choose web search fallback or auto-open search mode, the extension opens the selected engine URL
+          in a new tab.</li>
         <li>Context menu text/link capture is used only to insert content into the user's open Google Docs tab.</li>
       </ul>
 
@@ -108,7 +120,8 @@
 
       <h2>Data sharing</h2>
       <p>
-        The extension does not sell user data and does not share data with third parties except where required to provide functionality:
+        The extension does not sell user data and does not share data with third parties except where required to
+        provide functionality:
       </p>
       <ul>
         <li>DuckDuckGo receives search terms for instant answer lookups.</li>
@@ -122,7 +135,8 @@
           <li><strong>contextMenus</strong>: allow right-click capture actions.</li>
           <li><strong>tabs</strong>: open and communicate with Google Docs tabs and search tabs.</li>
           <li><strong>scripting</strong>: inject sidebar code into Google Docs pages.</li>
-          <li><strong>host permissions</strong> for docs.google.com and api.duckduckgo.com: required to operate inside Docs and fetch instant answers.</li>
+          <li><strong>host permissions</strong> for docs.google.com and api.duckduckgo.com: required to operate inside
+            Docs and fetch instant answers.</li>
         </ul>
       </div>
 
@@ -135,9 +149,10 @@
       <h2>Contact</h2>
       <p>
         For support or privacy questions, open an issue in the public repository:
-        <a href="https://github.com/adelevett/docs-explore/issues">github.com/adelevett/docs-explore/issues</a>
+        <a href="https://github.com/adelevett/answerdock/issues">github.com/adelevett/answerdock/issues</a>
       </p>
     </article>
   </main>
 </body>
+
 </html>

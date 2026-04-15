@@ -21,11 +21,11 @@ const PARENT_ORIGIN = getParentOrigin();
 const MIN_QUERY_LENGTH = 2;
 
 const ENGINE_MAP = {
-  ddg:    { name: "DuckDuckGo", url: (q) => `https://duckduckgo.com/?q=${encodeURIComponent(q)}` },
-  google: { name: "Google",     url: (q) => `https://www.google.com/search?q=${encodeURIComponent(q)}` },
-  bing:   { name: "Bing",       url: (q) => `https://www.bing.com/search?q=${encodeURIComponent(q)}` },
-  yahoo:  { name: "Yahoo",      url: (q) => `https://search.yahoo.com/search?p=${encodeURIComponent(q)}` },
-  brave:  { name: "Brave",      url: (q) => `https://search.brave.com/search?q=${encodeURIComponent(q)}` },
+  ddg: { name: "DuckDuckGo", url: (q) => `https://duckduckgo.com/?q=${encodeURIComponent(q)}` },
+  google: { name: "Google", url: (q) => `https://www.google.com/search?q=${encodeURIComponent(q)}` },
+  bing: { name: "Bing", url: (q) => `https://www.bing.com/search?q=${encodeURIComponent(q)}` },
+  yahoo: { name: "Yahoo", url: (q) => `https://search.yahoo.com/search?p=${encodeURIComponent(q)}` },
+  brave: { name: "Brave", url: (q) => `https://search.brave.com/search?q=${encodeURIComponent(q)}` },
 };
 
 let debounceTimer = null;
@@ -35,7 +35,7 @@ let defaultEngine = "ddg";
 let activeSearchToken = 0;
 let awaitingExplicitSearch = false;
 
-function getParentOrigin () {
+function getParentOrigin() {
   const ancestor = location.ancestorOrigins && location.ancestorOrigins.length
     ? location.ancestorOrigins[0]
     : "";
@@ -103,7 +103,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
   }
 });
 
-async function init () {
+async function init() {
   searchInput.value = "";
   clearBtn.classList.remove("visible");
   lastQuery = "";
@@ -112,7 +112,7 @@ async function init () {
   searchInput.focus();
 }
 
-async function doSearch (query, explicit = false) {
+async function doSearch(query, explicit = false) {
   if (query.length < MIN_QUERY_LENGTH) return;
 
   const canBypass = preferSearch && explicit && awaitingExplicitSearch;
@@ -158,14 +158,14 @@ async function doSearch (query, explicit = false) {
   }
 }
 
-async function fetchDDG (query) {
+async function fetchDDG(query) {
   const url = new URL(DDG_ENDPOINT);
   url.searchParams.set("q", query);
   url.searchParams.set("format", "json");
   url.searchParams.set("no_html", "1");
   url.searchParams.set("no_redirect", "1");
   url.searchParams.set("skip_disambig", "1");
-  url.searchParams.set("t", "docs-explore");
+  url.searchParams.set("t", "answerdock");
 
   const res = await fetch(url.toString(), {
     headers: {
@@ -180,11 +180,11 @@ async function fetchDDG (query) {
   return res.json();
 }
 
-function hasInstantAnswer (data) {
+function hasInstantAnswer(data) {
   return Boolean(data?.AbstractText?.length || data?.Answer?.length || data?.Definition?.length);
 }
 
-function renderInstantAnswer (data, query, correction) {
+function renderInstantAnswer(data, query, correction) {
   statusArea.hidden = true;
   emptyState.hidden = true;
   errorMsg.hidden = true;
@@ -290,7 +290,7 @@ function renderInstantAnswer (data, query, correction) {
   resultsList.appendChild(searchRow);
 }
 
-function renderSearchFallback (query, keepErrorVisible, correction) {
+function renderSearchFallback(query, keepErrorVisible, correction) {
   if (!keepErrorVisible) {
     statusArea.hidden = false;
     errorMsg.hidden = true;
@@ -371,7 +371,7 @@ function renderSearchFallback (query, keepErrorVisible, correction) {
   statusArea.appendChild(card);
 }
 
-function renderSearchReady (query) {
+function renderSearchReady(query) {
   statusArea.hidden = false;
   emptyState.hidden = true;
   errorMsg.hidden = true;
@@ -406,7 +406,7 @@ function renderSearchReady (query) {
   statusArea.appendChild(card);
 }
 
-function renderAutoSearched (query) {
+function renderAutoSearched(query) {
   statusArea.hidden = false;
   emptyState.hidden = true;
   errorMsg.hidden = true;
@@ -463,7 +463,7 @@ function renderAutoSearched (query) {
   statusArea.appendChild(card);
 }
 
-function showEmpty () {
+function showEmpty() {
   statusArea.hidden = false;
   emptyState.hidden = false;
   errorMsg.hidden = true;
@@ -472,7 +472,7 @@ function showEmpty () {
   clearResultCards();
 }
 
-function showError (html) {
+function showError(html) {
   statusArea.hidden = false;
   emptyState.hidden = true;
   resultsList.hidden = true;
@@ -481,7 +481,7 @@ function showError (html) {
   clearResultCards();
 }
 
-function clearInput () {
+function clearInput() {
   activeSearchToken += 1;
   searchInput.value = "";
   clearBtn.classList.remove("visible");
@@ -490,12 +490,12 @@ function clearInput () {
   searchInput.focus();
 }
 
-function clearResultCards () {
+function clearResultCards() {
   statusArea.querySelectorAll(".sb-fallback, .sb-search-ready, .sb-auto-searched, .sb-spell-suggestion").forEach((el) => el.remove());
 }
 
 let toastTimer = null;
-function showToast (msg) {
+function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add("show");
   clearTimeout(toastTimer);
@@ -514,7 +514,7 @@ window.addEventListener("message", (e) => {
   }
 });
 
-function postInsert (text, copied) {
+function postInsert(text, copied) {
   window.parent.postMessage(
     {
       type: "DE_INSERT_CITATION",
@@ -525,7 +525,7 @@ function postInsert (text, copied) {
   );
 }
 
-function buildDisplayedAnswerText (heading, abstract, source, sourceUrl) {
+function buildDisplayedAnswerText(heading, abstract, source, sourceUrl) {
   const parts = [heading, abstract, `Source: ${source}`];
   if (sourceUrl) {
     parts.push(sourceUrl);
@@ -533,7 +533,7 @@ function buildDisplayedAnswerText (heading, abstract, source, sourceUrl) {
   return parts.join("\n\n");
 }
 
-function buildAPAFromDDG (data, query) {
+function buildAPAFromDDG(data, query) {
   const heading = data.Heading || query;
   const publisher = data.AbstractSource || data.DefinitionSource || "DuckDuckGo";
   const url = data.AbstractURL || data.DefinitionURL || extractFirstURL(data.Results) || "";
@@ -551,21 +551,21 @@ function buildAPAFromDDG (data, query) {
   return parts.join(" ");
 }
 
-function buildSearchCitation (query) {
+function buildSearchCitation(query) {
   const engine = ENGINE_MAP[defaultEngine] || ENGINE_MAP.ddg;
   const url = engine.url(query);
   const retrieved = formatRetrievedDate(new Date());
   return `${engine.name}. (n.d.). Search results for "${query}". ${url} Retrieved ${retrieved}.`;
 }
 
-function formatRetrievedDate (d) {
+function formatRetrievedDate(d) {
   const year = d.getFullYear();
   const month = d.toLocaleString("en-US", { month: "long" });
   const day = d.getDate();
   return `${year}, ${month} ${day}`;
 }
 
-function guessAuthorFromHeading (heading) {
+function guessAuthorFromHeading(heading) {
   const tokens = String(heading || "").trim().split(/\s+/).filter(Boolean);
   if (tokens.length < 2 || tokens.length > 3) return "";
   if (!tokens.every((t) => /^[A-Z][a-zA-Z'-]+$/.test(t))) return "";
@@ -575,7 +575,7 @@ function guessAuthorFromHeading (heading) {
   return `${last}, ${first.charAt(0).toUpperCase()}`;
 }
 
-function flattenRelatedTopics (topics) {
+function flattenRelatedTopics(topics) {
   const out = [];
   topics.forEach((entry) => {
     if (entry?.FirstURL && entry?.Text) {
@@ -593,19 +593,19 @@ function flattenRelatedTopics (topics) {
   return out;
 }
 
-function normalizeDDGImage (imageUrl) {
+function normalizeDDGImage(imageUrl) {
   if (!imageUrl) return "";
   if (/^https?:\/\//i.test(imageUrl)) return imageUrl;
   if (imageUrl.startsWith("/")) return `https://duckduckgo.com${imageUrl}`;
   return `https://duckduckgo.com/${imageUrl}`;
 }
 
-function extractFirstURL (results) {
+function extractFirstURL(results) {
   if (!Array.isArray(results) || results.length === 0) return "";
   return results[0]?.FirstURL || "";
 }
 
-function getPreferSearch () {
+function getPreferSearch() {
   return new Promise((resolve) => {
     chrome.storage.local.get(KEY_PREFER_SEARCH, (result) => {
       resolve(Boolean(result?.[KEY_PREFER_SEARCH]));
@@ -613,13 +613,13 @@ function getPreferSearch () {
   });
 }
 
-function setPreferSearch (value) {
+function setPreferSearch(value) {
   return new Promise((resolve) => {
     chrome.storage.local.set({ [KEY_PREFER_SEARCH]: Boolean(value) }, resolve);
   });
 }
 
-function getDefaultEngine () {
+function getDefaultEngine() {
   return new Promise((resolve) => {
     chrome.storage.local.get(KEY_DEFAULT_ENGINE, (result) => {
       resolve(result?.[KEY_DEFAULT_ENGINE] || "ddg");
@@ -627,7 +627,7 @@ function getDefaultEngine () {
   });
 }
 
-async function fetchSpellCorrection (query) {
+async function fetchSpellCorrection(query) {
   try {
     const url = `https://api.datamuse.com/words?sp=${encodeURIComponent(query)}&max=1`;
     const res = await fetch(url, { headers: { "Accept": "application/json" } });
@@ -641,7 +641,7 @@ async function fetchSpellCorrection (query) {
   return "";
 }
 
-function escapeHtml (str) {
+function escapeHtml(str) {
   return String(str ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -649,7 +649,7 @@ function escapeHtml (str) {
     .replace(/\"/g, "&quot;");
 }
 
-function escapeAttr (str) {
+function escapeAttr(str) {
   return String(str ?? "")
     .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#39;");
